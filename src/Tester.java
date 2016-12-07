@@ -11,6 +11,12 @@ public class Tester {
             Example 1, Figure 9.1 from the book.
          */
 
+        System.out.println();
+        System.out.println("*********");
+        System.out.println("Following graph is taken from the book, figure: 9.1");
+        System.out.println("*********");
+        System.out.println();
+
         // new Vertex(int id)
         Vertex[] myVertices = new Vertex[]{
                 new Vertex(1),
@@ -52,6 +58,13 @@ public class Tester {
         /*
             Example 2, Figure 9.8 from the book.
          */
+
+        System.out.println();
+        System.out.println("*********");
+        System.out.println("Following graph is taken from the book, figure: 9.8");
+        System.out.println("*********");
+        System.out.println();
+
 
         // new Vertex(int id)
         Vertex[] myVertices2 = new Vertex[]{

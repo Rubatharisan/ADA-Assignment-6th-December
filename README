@@ -5,6 +5,11 @@ one of the following three algorithms: Dijkstra, Kruskal, Prim.
 
     We have implemented our graph with a adjacency list ... only doing dijkstra right now - want to do Kruskal and Prim :)
 
+
+    *********
+    Following graph is taken from the book, figure: 9.1
+    *********
+
     ###
     # Adjacency list representation of our graph (vertex | adjacent vertex, ...)
     ##
@@ -50,6 +55,11 @@ one of the following three algorithms: Dijkstra, Kruskal, Prim.
     v5    cost: 2    1 -> 2 -> 5
     v6    cost: 2    1 -> 4 -> 6
     v7    cost: 2    1 -> 4 -> 7
+
+
+    *********
+    Following graph is taken from the book, figure: 9.8
+    *********
 
     ###
     # Adjacency list representation of our graph (vertex | adjacent vertex, ...)
