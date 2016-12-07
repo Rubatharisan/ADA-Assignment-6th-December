@@ -98,7 +98,7 @@ public class Tester {
         myGraph2.printWeightRepresentation();
         myGraph2.printToplogicalSort();
 
-        Dijkstra dijkstra2 = new Dijkstra(myGraph2.getVertexById(2), myGraph2.getGraph());
+        Dijkstra dijkstra2 = new Dijkstra(myGraph2.getVertexById(6), myGraph2.getGraph());
         dijkstra2.run();
         dijkstra2.showPath();
 

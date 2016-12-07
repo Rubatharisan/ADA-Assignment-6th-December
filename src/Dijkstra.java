@@ -92,12 +92,18 @@ public class Dijkstra {
         System.out.println("----------------------------------");
 
         for(Vertex v : vertices){
+
+
             System.out.print("v" + v.getId() + "    cost: " + v.distance + "    ");
 
 
             if(v.path != null) {
                 Stack<Integer> order = new Stack<Integer>();
                 printPath(v, order);
+            }
+
+            if(v.distance == Integer.MAX_VALUE){
+                System.out.print("Not possible to reach from " + source.getId() + " to ");
             }
 
             System.out.print(v.getId());
