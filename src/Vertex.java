@@ -31,7 +31,7 @@ public class Vertex {
     }
 
 
-    public void getAdjecentVertexes(){
+    public void getAdjacentVertices(){
         System.out.println("Vertex: " + this.getId());
         for (Edge e : adj) {
            e.printData();
