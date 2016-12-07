@@ -1,7 +1,4 @@
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-import java.util.PriorityQueue;
+import java.util.*;
 
 /**
  * Created by rubatharisan on 07/12/2016.
@@ -36,13 +33,13 @@ public class Dijkstra {
         source.distance = 0;
         q.add(source);
 
-        // test
+        /* test
         System.out.println("---");
         for (Iterator<Vertex> flavoursIter = q.iterator(); flavoursIter.hasNext();){
             Vertex n = flavoursIter.next();
             System.out.println("Vertex: " + n.getId() + " Cost: " + n.distance);
         }
-        System.out.println("----");
+        System.out.println("----"); */
 
 
 
@@ -50,8 +47,8 @@ public class Dijkstra {
         while(!q.isEmpty()){
             Vertex v = q.poll();
 
-            System.out.println("Taking out ID: " + v.getId());
-            System.out.println("Taking element with priority " + v.distance);
+            //System.out.println("Taking out ID: " + v.getId());
+            //System.out.println("Taking element with priority " + v.distance);
 
 
             v.visited = true;
@@ -64,9 +61,9 @@ public class Dijkstra {
                     if(v.distance + cvw < w.destination.distance){
 
 
-                        System.out.println("Adjacent vertex: " + w.destination.getId() + " has cost: " + w.destination.distance);
+                        //System.out.println("Adjacent vertex: " + w.destination.getId() + " has cost: " + w.destination.distance);
                         w.destination.distance = v.distance + cvw;
-                        System.out.println("Adjacent vertex: " + w.destination.getId() + " has updated cost: " + w.destination.distance);
+                        //System.out.println("Adjacent vertex: " + w.destination.getId() + " has updated cost: " + w.destination.distance);
                         w.destination.path = v;
 
                         if(!q.contains(w.destination)){
@@ -77,28 +74,64 @@ public class Dijkstra {
                 }
             }
 
-            // test
+            /* test
             System.out.println("---");
             for (Iterator<Vertex> flavoursIter = q.iterator(); flavoursIter.hasNext();){
                 Vertex n = flavoursIter.next();
                 System.out.println("Vertex: " + n.getId() + " Cost: " + n.distance);
             }
-            System.out.println("----");
+            System.out.println("----"); */
         }
 
+    }
+
+    void showPath(){
+        System.out.println("Source vertex: " + source.getId());
+        System.out.println("----------------------------------");
+        System.out.println("vertex|distance|path");
+        System.out.println("----------------------------------");
+
         for(Vertex v : vertices){
-            System.out.println("Vertex: " + v.getId());
-            System.out.println("Distance: " + v.distance);
+            System.out.print("v" + v.getId() + "    cost: " + v.distance + "    ");
+
+
             if(v.path != null) {
-                System.out.println("Path: " + v.path.getId());
+                Stack<Integer> order = new Stack<Integer>();
+                printPath(v, order);
             }
-            System.out.println();
+
+            System.out.print(v.getId());
+
             /*
             for(Edge w : v.adj){
                 System.out.println("    to: " + w.destination.getId());
                 System.out.println("    cost: " + w.destination.distance);
             }
             */
+            System.out.println();
+        }
+
+        System.out.println();
+
+    }
+
+    void printPath(Vertex v, Stack<Integer> order){
+
+        if(v.path != null){
+            //System.out.print(v.path.getId() + ", ");
+            order.push(v.path.getId());
+            printPath(v.path, order);
+        }
+
+        if(v.path == null){
+            Collections.reverse(order);
+
+            for(int i : order){
+                System.out.print(i);
+
+                System.out.print(" -> ");
+
+            }
         }
 
     }
