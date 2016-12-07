@@ -1,5 +1,5 @@
 import java.util.ArrayDeque;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Queue;
 
 /**
@@ -9,25 +9,28 @@ public class Graph {
     private Vertex[] vertices;
 
     Graph(Vertex[] vertices, Edge[] edges){
-        for(Edge edge : edges){
+        HashMap<Integer, Vertex> myVertices = new HashMap<>();
 
-            for(Vertex source : vertices){
-
-                if(edge.getSource() == source.getId()){
-
-                    for(Vertex target : vertices){
-
-                        if(target.getId() == edge.getTarget()){
-                            source.addAdjacentVertex(new Edge(target, edge.getCost()));
-                        }
-
-                    }
-                }
-
-            }
+        for(Vertex v : vertices){
+            myVertices.put(v.getId(), v);
         }
 
-        this.vertices = vertices;
+        for(Edge edge : edges){
+            Vertex source = myVertices.get(edge.getSource());
+            Vertex target = myVertices.get(edge.getTarget());
+            source.addAdjacentVertex(new Edge(target, edge.getCost()));
+        }
+
+
+        Vertex[] theVertices = new Vertex[myVertices.size()];
+
+        int counter = 0;
+        for(Object i : myVertices.keySet().toArray()){
+            theVertices[counter] = myVertices.get(i);
+            counter++;
+        }
+
+        this.vertices = theVertices;
 
     }
 
