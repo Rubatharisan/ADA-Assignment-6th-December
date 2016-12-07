@@ -1,3 +1,4 @@
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,9 +8,9 @@ import java.util.List;
 public class Vertex {
     public List<Edge> adj;
     public boolean visited;
-    public int distance;
+    public Integer distance;
     public Vertex path;
-    public int indegree;
+    public int indegree = 0;
     public int topNum;
 
     private int vertexId;
@@ -17,13 +18,15 @@ public class Vertex {
     Vertex(int id){
         this.vertexId = id;
         this.adj = new ArrayList<>();
+        this.distance = Integer.MAX_VALUE;
+        this.visited = false;
     }
 
     public int getId(){
         return this.vertexId;
     }
 
-    public void addAdjecentVertex(Edge e){
+    public void addAdjacentVertex(Edge e){
         this.adj.add(e);
     }
 
@@ -33,7 +36,6 @@ public class Vertex {
         for (Edge e : adj) {
            e.printData();
         }
-
     }
 
 }
