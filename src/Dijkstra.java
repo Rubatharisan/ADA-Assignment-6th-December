@@ -6,6 +6,7 @@ import java.util.*;
 public class Dijkstra {
     Vertex source;
     Vertex[] vertices;
+    boolean showHeapDebug = false;
 
     Dijkstra(Vertex s, Vertex[] vertices){
         this.source = s;
@@ -19,7 +20,7 @@ public class Dijkstra {
         System.out.println();
 
 
-        PriorityQueue<Vertex> q = new PriorityQueue<>(vertices.length, new Comparator<Vertex>(){
+        /* PriorityQueue<Vertex> q = new PriorityQueue<>(vertices.length, new Comparator<Vertex>(){
 
             public int compare(Vertex vertex1,
                                Vertex vertex2)
@@ -27,11 +28,19 @@ public class Dijkstra {
                 return vertex1.distance.compareTo(vertex2.distance);
             }
 
-        });
+        }); */
+
+        Heap q = new Heap(vertices.length);
+        q.debug = showHeapDebug;
 
 
-        source.distance = 0;
-        q.add(source);
+        for(Vertex v : vertices){
+            if(v == source){
+                v.distance = 0;
+            }
+
+            q.add(v);
+        }
 
         /* test
         System.out.println("---");
@@ -61,14 +70,14 @@ public class Dijkstra {
                     if(v.distance + cvw < w.destination.distance){
 
 
+
                         //System.out.println("Adjacent vertex: " + w.destination.getId() + " has cost: " + w.destination.distance);
                         w.destination.distance = v.distance + cvw;
                         //System.out.println("Adjacent vertex: " + w.destination.getId() + " has updated cost: " + w.destination.distance);
                         w.destination.path = v;
 
-                        if(!q.contains(w.destination)){
-                            q.add(w.destination);
-                        }
+                        q.decreaseKey(w.destination);
+
                     }
 
                 }
@@ -98,7 +107,7 @@ public class Dijkstra {
 
 
             if(v.path != null) {
-                Stack<Integer> order = new Stack<Integer>();
+                Stack<Integer> order = new Stack<>();
                 printPath(v, order);
             }
 
@@ -134,11 +143,14 @@ public class Dijkstra {
 
             for(int i : order){
                 System.out.print(i);
-
                 System.out.print(" -> ");
 
             }
         }
 
+    }
+
+    void showHeap(boolean showDebug){
+        this.showHeapDebug = showDebug;
     }
 }

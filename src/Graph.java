@@ -8,6 +8,7 @@ import java.util.Queue;
 public class Graph {
     private Vertex[] vertices;
 
+
     Graph(Vertex[] vertices, Edge[] edges){
         HashMap<Integer, Vertex> myVertices = new HashMap<>();
 
@@ -67,7 +68,7 @@ public class Graph {
 
     public void printWeightRepresentation(){
         System.out.println("###");
-        System.out.println("# Weight representation of our graph (vextex | adjacent vertex -> cost, ...)");
+        System.out.println("# Weight representation of our graph (vextex | [ adjacent vertex -> cost ], ...)");
         System.out.println("##");
         System.out.println();
 

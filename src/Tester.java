@@ -51,6 +51,10 @@ public class Tester {
         myGraph.printToplogicalSort();
 
         Dijkstra dijkstra = new Dijkstra(myGraph.getVertexById(1), myGraph.getGraph());
+
+        // Show output of our custom priority queue.
+        dijkstra.showHeap(false);
+
         dijkstra.run();
         dijkstra.showPath();
 
@@ -98,9 +102,11 @@ public class Tester {
         myGraph2.printWeightRepresentation();
         myGraph2.printToplogicalSort();
 
-        Dijkstra dijkstra2 = new Dijkstra(myGraph2.getVertexById(6), myGraph2.getGraph());
+        Dijkstra dijkstra2 = new Dijkstra(myGraph2.getVertexById(1), myGraph2.getGraph());
+        dijkstra2.showHeap(false);
         dijkstra2.run();
         dijkstra2.showPath();
+
 
 
     }
