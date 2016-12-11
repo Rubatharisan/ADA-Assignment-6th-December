@@ -50,7 +50,7 @@ public class Tester {
         myGraph.printWeightRepresentation();
         myGraph.printToplogicalSort();
 
-        Dijkstra dijkstra = new Dijkstra(myGraph.getVertexById(1), myGraph.getGraph());
+        Dijkstra dijkstra = new Dijkstra(myGraph.getVertexById(1), myGraph);
 
         // Show output of our custom priority queue.
         dijkstra.showHeap(false);
@@ -102,10 +102,69 @@ public class Tester {
         myGraph2.printWeightRepresentation();
         myGraph2.printToplogicalSort();
 
-        Dijkstra dijkstra2 = new Dijkstra(myGraph2.getVertexById(1), myGraph2.getGraph());
+        Dijkstra dijkstra2 = new Dijkstra(myGraph2.getVertexById(1), myGraph2);
         dijkstra2.showHeap(false);
         dijkstra2.run();
         dijkstra2.showPath();
+
+        /*
+            Example 3, Figure 9.50 from the book.
+         */
+
+        System.out.println();
+        System.out.println("*********");
+        System.out.println("Following graph is taken from the book, figure: 9.50");
+        System.out.println("*********");
+        System.out.println();
+
+        // new Vertex(int id)
+        Vertex[] myVertices3 = new Vertex[]{
+                new Vertex(1),
+                new Vertex(2),
+                new Vertex(3),
+                new Vertex(4),
+                new Vertex(5),
+                new Vertex(6),
+                new Vertex(7)
+        };
+
+        // new Edge(int source, int target, int cost)
+        Edge[] myEdges3 = new Edge[]{
+                new Edge(1,2,2),
+                new Edge(1,3,4),
+                new Edge(1,4,1),
+                new Edge(2,4,3),
+                new Edge(2,5,10),
+                new Edge(3,4,2),
+                new Edge(3,6,5),
+                new Edge(4,5,7),
+                new Edge(4,7,4),
+                new Edge(4,6,8),
+                new Edge(5,7,6),
+                new Edge(6,7,1)
+        };
+
+        // new Graph(Vertex[] myVertices, Edge[] myEdges)
+        Graph myGraph3 = new Graph(myVertices3, myEdges3, true);
+        myGraph3.printAdjacencyList();
+        myGraph3.printWeightRepresentation();
+        myGraph3.printToplogicalSort();
+
+        /*
+
+        Dijkstra dijkstra3 = new Dijkstra(myGraph3.getVertexById(1), myGraph3);
+
+        // Show output of our custom priority queue.
+        dijkstra3.showHeap(false);
+        dijkstra3.run();
+        dijkstra3.showPath();
+
+        */
+
+        Prim prim = new Prim(myGraph3);
+        prim.run(myGraph3.getVertexById(1));
+        prim.showPath();
+
 
 
 

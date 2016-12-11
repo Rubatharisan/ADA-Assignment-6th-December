@@ -5,12 +5,12 @@ import java.util.*;
  */
 public class Dijkstra {
     Vertex source;
-    Vertex[] vertices;
+    Graph graph;
     boolean showHeapDebug = false;
 
-    Dijkstra(Vertex s, Vertex[] vertices){
+    Dijkstra(Vertex s, Graph graph){
         this.source = s;
-        this.vertices = vertices;
+        this.graph = graph;
     }
 
     public void run(){
@@ -30,11 +30,11 @@ public class Dijkstra {
 
         }); */
 
-        Heap q = new Heap(vertices.length);
+        Heap q = new Heap(graph.getVertices().length);
         q.debug = showHeapDebug;
 
 
-        for(Vertex v : vertices){
+        for(Vertex v : graph.getVertices()){
             if(v == source){
                 v.distance = 0;
             }
@@ -100,7 +100,7 @@ public class Dijkstra {
         System.out.println("vertex|distance|path");
         System.out.println("----------------------------------");
 
-        for(Vertex v : vertices){
+        for(Vertex v : graph.getVertices()){
 
 
             System.out.print("v" + v.getId() + "    cost: " + v.distance + "    ");

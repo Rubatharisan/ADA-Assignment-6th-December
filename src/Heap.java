@@ -8,7 +8,9 @@ public class Heap {
     private int capacity;
     private int size;
     private Vertex[] heap;
+
     private HashMap<Vertex, Integer> aux = new HashMap<>();
+
     public boolean debug = false;
 
     Heap(int capacity){
@@ -205,6 +207,10 @@ public class Heap {
         }
 
         return false;
+    }
+
+    public boolean contains(Vertex v){
+        return aux.containsKey(v);
     }
 
 

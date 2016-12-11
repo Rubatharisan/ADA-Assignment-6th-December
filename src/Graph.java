@@ -8,8 +8,12 @@ import java.util.Queue;
 public class Graph {
     private Vertex[] vertices;
 
-
     Graph(Vertex[] vertices, Edge[] edges){
+        this(vertices, edges, false);
+    }
+
+    Graph(Vertex[] vertices, Edge[] edges, boolean bidirectional){
+
         HashMap<Integer, Vertex> myVertices = new HashMap<>();
 
         for(Vertex v : vertices){
@@ -20,6 +24,11 @@ public class Graph {
             Vertex source = myVertices.get(edge.getSource());
             Vertex target = myVertices.get(edge.getTarget());
             source.addAdjacentVertex(new Edge(target, edge.getCost()));
+
+            if(bidirectional){
+                target.addAdjacentVertex(new Edge(source, edge.getCost()));
+            }
+
         }
 
 
@@ -32,6 +41,7 @@ public class Graph {
         }
 
         this.vertices = theVertices;
+
 
     }
 
@@ -172,7 +182,7 @@ public class Graph {
         return null;
     }
 
-    public Vertex[] getGraph(){
+    public Vertex[] getVertices(){
         return this.vertices;
     }
 
