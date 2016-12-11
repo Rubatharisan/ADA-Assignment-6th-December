@@ -42,21 +42,21 @@ public class Prim {
 
             for(Edge w : v.adj){
                // Edge w = v.adj.get(i);
-                if(!w.destination.visited) {
-                    int cvw = w.cost;
-                    System.out.print("Vertex: " + w.destination.getId() + ", cost: " + w.cost);
+                if(!w.getDestination().visited) {
+                    int cvw = w.getCost();
+                    System.out.print("Vertex: " + w.getDestination().getId() + ", cost: " + w.getCost());
 
-                    if(w.destination.distance > cvw){
-                        w.destination.path = v;
-                        w.destination.distance = cvw;
+                    if(w.getDestination().distance > cvw){
+                        w.getDestination().path = v;
+                        w.getDestination().distance = cvw;
 
-                        if(!heap.contains(w.destination)){
+                        if(!heap.contains(w.getDestination())){
                             System.out.println(" ... adding to heap");
-                            heap.add(w.destination);
+                            heap.add(w.getDestination());
 
                         } else {
                             System.out.println(" ... updating existing heap element");
-                            heap.decreaseKey(w.destination);
+                            heap.decreaseKey(w.getDestination());
                         }
 
                     } else {

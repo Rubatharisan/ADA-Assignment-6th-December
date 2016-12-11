@@ -1,12 +1,22 @@
 /**
  * Created by rubatharisan on 05/12/2016.
  */
-public class Edge {
+public class Edge implements Comparable<Edge>{
+
+    // To be used when easy-defining a vertex.
     private int source;
     private int target;
 
-    public Vertex destination;
-    public int cost;
+    // To be used as a directed vertex
+    private Vertex targetVertex;
+
+    // To be used as a undirected edge
+    private Vertex undirectedEdgeToVertex1;
+    private Vertex undirectedEdgeToVertex2;
+
+    // Cost of using the edge
+    private int cost;
+
 
     public Edge(int source, int target, int cost){
         this.source = source;
@@ -14,8 +24,16 @@ public class Edge {
         this.cost = cost;
     }
 
+    // if a directed edge
     public Edge(Vertex destination, int cost){
-        this.destination = destination;
+        this.targetVertex = destination;
+        this.cost = cost;
+    }
+
+    // if a undirected edge
+    public Edge(Vertex undirectedVertex1, Vertex undirectedVertex2, int cost){
+        this.undirectedEdgeToVertex1 = undirectedVertex1;
+        this.undirectedEdgeToVertex2 = undirectedVertex2;
         this.cost = cost;
     }
 
@@ -31,9 +49,27 @@ public class Edge {
         return this.cost;
     }
 
+    public Vertex getDestination(){
+        return this.targetVertex;
+    }
+
+    public Vertex[] getVertices(){
+
+        return new Vertex[]{
+                this.undirectedEdgeToVertex1,
+                this.undirectedEdgeToVertex2
+        };
+
+    }
+
     public void printData(){
-        System.out.println("    Destination vertex: " + this.destination.getId());
+        System.out.println("    Destination vertex: " + this.targetVertex.getId());
         System.out.println("    Cost: " + this.cost);
         System.out.println();
+    }
+
+    @Override
+    public int compareTo(Edge e){
+        return Integer.compare(this.getCost(), e.getCost());
     }
 }

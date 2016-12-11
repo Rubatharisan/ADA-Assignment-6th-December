@@ -7,12 +7,14 @@ import java.util.Queue;
  */
 public class Graph {
     private Vertex[] vertices;
+    private Edge[] undirectedEdges;
+    int undirectedEdgeCounter;
 
     Graph(Vertex[] vertices, Edge[] edges){
         this(vertices, edges, false);
     }
 
-    Graph(Vertex[] vertices, Edge[] edges, boolean bidirectional){
+    Graph(Vertex[] vertices, Edge[] edges, boolean undirected){
 
         HashMap<Integer, Vertex> myVertices = new HashMap<>();
 
@@ -20,13 +22,21 @@ public class Graph {
             myVertices.put(v.getId(), v);
         }
 
+        if(undirected) {
+            this.undirectedEdges = new Edge[edges.length];
+            undirectedEdgeCounter = 0;
+        }
+
         for(Edge edge : edges){
             Vertex source = myVertices.get(edge.getSource());
             Vertex target = myVertices.get(edge.getTarget());
             source.addAdjacentVertex(new Edge(target, edge.getCost()));
 
-            if(bidirectional){
+            if(undirected){
                 target.addAdjacentVertex(new Edge(source, edge.getCost()));
+
+                this.undirectedEdges[undirectedEdgeCounter] = new Edge(source, target, edge.getCost());
+                undirectedEdgeCounter++;
             }
 
         }
@@ -41,6 +51,7 @@ public class Graph {
         }
 
         this.vertices = theVertices;
+
 
 
     }
@@ -58,7 +69,7 @@ public class Graph {
                 int counter = 0;
 
                 for(Edge e : v.adj){
-                    System.out.print(e.destination.getId());
+                    System.out.print(e.getDestination().getId());
 
                     counter++;
                     if(!(counter == v.adj.size())){
@@ -89,7 +100,7 @@ public class Graph {
                 int counter = 0;
 
                 for(Edge e : v.adj){
-                    System.out.print("[ " + e.destination.getId() + " -> cost: " + e.cost + " ]");
+                    System.out.print("[ " + e.getDestination().getId() + " -> cost: " + e.getCost() + " ]");
 
                     counter++;
                     if(!(counter == v.adj.size())){
@@ -115,7 +126,7 @@ public class Graph {
 
         for(Vertex v : vertices){
             for(Edge w : v.adj){
-                w.destination.indegree++;
+                w.getDestination().indegree++;
             }
         }
 
@@ -136,8 +147,8 @@ public class Graph {
             v.topNum = ++counter;
 
             for(Edge w : v.adj){
-                if(--w.destination.indegree == 0){
-                    q.add(w.destination);
+                if(--w.getDestination().indegree == 0){
+                    q.add(w.getDestination());
                 }
             }
         }
@@ -184,6 +195,11 @@ public class Graph {
 
     public Vertex[] getVertices(){
         return this.vertices;
+    }
+
+
+    public Edge[] getEdges(){
+        return this.undirectedEdges;
     }
 
 

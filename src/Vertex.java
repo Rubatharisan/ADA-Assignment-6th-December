@@ -8,8 +8,10 @@ import java.util.List;
 public class Vertex {
     public List<Edge> adj;
     public boolean visited;
+
     public Integer distance;
     public Vertex path;
+
     public int indegree = 0;
     public int topNum;
 
