@@ -6,29 +6,65 @@ import java.util.*;
 
 public class Kruskal {
 
-    private Vertex[] disjointSet;
+    Graph graph;
+    List<Edge> spanningTree = new ArrayList<>();
+    DisjointSet set = new DisjointSet();
 
-    Kruskal(Graph myGraph){
-        Edge[] myEdges = myGraph.getEdges();
+    Kruskal(Graph myGraph) {
+        this.graph = myGraph;
 
+    }
+
+    public void run(){
+        Edge[] myEdges = this.graph.getEdges();
         Arrays.sort(myEdges);
 
-        List<Edge> spanningTree = new ArrayList<>();
+        for(Vertex v : this.graph.getVertices()){
+            set.makeSet(v);
+        }
 
         for(Edge e : myEdges){
-            System.out.println(e.getVertices()[0].getId() + " <--> " + e.getVertices()[1].getId() + ", cost: " + e.getCost());
+            //System.out.println(e.getVertices()[0].getId() + " <--> " + e.getVertices()[1].getId() + ", cost: " + e.getCost());
+
+            Vertex v = set.find(e.getVertices()[0]);
+            Vertex w = set.find(e.getVertices()[1]);
+
+            if(v != w){
+                    spanningTree.add(e);
+                    set.union(v,w);
+            }
+        }
+        /* for(Edge e : spanningTree){
+            System.out.println(e.getVertices()[0].getId() + " <--> " + e.getVertices()[1].getId() + ", cost: ");
+        } */
+
+        /* int i = 0;
+        while(i != myEdges.length && spanningTree.size() != myGraph.getVertices().length){
+
+            i++;
+        } */
+    }
+
+
+    public void showPath(){
+        System.out.println("----------------------------------");
+        System.out.println("undirected edge --> cost");
+        System.out.println("----------------------------------");
+
+        for(Edge e : spanningTree){
+
+            Vertex v = e.getVertices()[0];
+            Vertex w = e.getVertices()[1];
+
+            System.out.println("(v"+v.getId() + ",v" + w.getId() + ") -> cost: " + e.getCost());
         }
 
-        int i = 0;
-        while(i != myEdges.length && spanningTree.size() != myGraph.getVertices().length){
-            
-            i++;
-        }
+        System.out.println();
+
     }
 
 
     public static void main(String args[]){
-        System.out.println("Hi!");
 
         Vertex[] myVertices4 = new Vertex[]{
                 new Vertex(1),
@@ -60,7 +96,8 @@ public class Kruskal {
         Graph graph4 = new Graph(myVertices4,myEdges4,true);
 
         Kruskal kruskal = new Kruskal(graph4);
-
+        kruskal.run();
+        kruskal.showPath();
 
 
 

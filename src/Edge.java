@@ -24,13 +24,13 @@ public class Edge implements Comparable<Edge>{
         this.cost = cost;
     }
 
-    // if a directed edge
+    // if a directed graph
     public Edge(Vertex destination, int cost){
         this.targetVertex = destination;
         this.cost = cost;
     }
 
-    // if a undirected edge
+    // if a undirected graph
     public Edge(Vertex undirectedVertex1, Vertex undirectedVertex2, int cost){
         this.undirectedEdgeToVertex1 = undirectedVertex1;
         this.undirectedEdgeToVertex2 = undirectedVertex2;
