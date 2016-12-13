@@ -1,14 +1,11 @@
-import java.util.ArrayDeque;
-import java.util.HashMap;
-import java.util.Queue;
+import java.util.*;
 
 /**
  * Created by rubatharisan on 07/12/2016.
  */
 public class Graph {
     private Vertex[] vertices;
-    private Edge[] undirectedEdges;
-    int undirectedEdgeCounter;
+    private Edge[] edges;
 
     Graph(Vertex[] vertices, Edge[] edges){
         this(vertices, edges, false);
@@ -18,27 +15,25 @@ public class Graph {
 
         HashMap<Integer, Vertex> myVertices = new HashMap<>();
 
+        this.edges = new Edge[edges.length];
+
         for(Vertex v : vertices){
             myVertices.put(v.getId(), v);
         }
 
-        if(undirected) {
-            this.undirectedEdges = new Edge[edges.length];
-            undirectedEdgeCounter = 0;
-        }
-
+        int edgeCount = 0;
         for(Edge edge : edges){
+
             Vertex source = myVertices.get(edge.getSource());
             Vertex target = myVertices.get(edge.getTarget());
-            source.addAdjacentVertex(new Edge(target, edge.getCost()));
 
+            this.edges[edgeCount] = new Edge(source, target, edge.getCost());
+
+            source.addAdjacentVertex(new Edge(target, edge.getCost()));
             if(undirected){
                 target.addAdjacentVertex(new Edge(source, edge.getCost()));
-
-                this.undirectedEdges[undirectedEdgeCounter] = new Edge(source, target, edge.getCost());
-                undirectedEdgeCounter++;
             }
-
+            edgeCount++;
         }
 
 
@@ -51,8 +46,6 @@ public class Graph {
         }
 
         this.vertices = theVertices;
-
-
 
     }
 
@@ -199,7 +192,7 @@ public class Graph {
 
 
     public Edge[] getEdges(){
-        return this.undirectedEdges;
+        return this.edges;
     }
 
 

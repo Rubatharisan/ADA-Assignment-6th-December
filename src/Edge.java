@@ -3,7 +3,7 @@
  */
 public class Edge implements Comparable<Edge>{
 
-    // To be used when easy-defining a vertex.
+    // To be used when easy-defining a edge.
     private int source;
     private int target;
 
@@ -17,7 +17,7 @@ public class Edge implements Comparable<Edge>{
     // Cost of using the edge
     private int cost;
 
-
+    // Input, int source vertex -> int target vertex.
     public Edge(int source, int target, int cost){
         this.source = source;
         this.target = target;

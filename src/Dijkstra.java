@@ -64,19 +64,19 @@ public class Dijkstra {
 
             for(Edge e : v.adj){
 
-                if(!e.getDestination().visited){
+                Vertex w = e.getDestination();
+
+                if(!w.visited){
                     int cvw = e.getCost();
 
-                    if(v.distance + cvw < e.getDestination().distance){
-
-
+                    if(v.distance + cvw < w.distance){
 
                         //System.out.println("Adjacent vertex: " + w.destination.getId() + " has cost: " + w.destination.distance);
-                        e.getDestination().distance = v.distance + cvw;
+                        w.distance = v.distance + cvw;
                         //System.out.println("Adjacent vertex: " + w.destination.getId() + " has updated cost: " + w.destination.distance);
-                        e.getDestination().path = v;
+                        w.path = v;
 
-                        q.decreaseKey(e.getDestination());
+                        q.decreaseKey(w);
 
                     }
 

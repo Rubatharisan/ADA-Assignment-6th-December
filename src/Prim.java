@@ -21,7 +21,6 @@ public class Prim {
 
 
         Heap heap = new Heap(graph.getVertices().length);
-
         heap.debug = false;
 
         if(s == null){
@@ -38,25 +37,27 @@ public class Prim {
             Vertex v = heap.poll();
 
             v.visited = true;
-            System.out.println("I am at vertex: " + v.getId());
+            //System.out.println("I am at vertex: " + v.getId());
 
-            for(Edge w : v.adj){
-               // Edge w = v.adj.get(i);
-                if(!w.getDestination().visited) {
-                    int cvw = w.getCost();
-                    System.out.print("Vertex: " + w.getDestination().getId() + ", cost: " + w.getCost());
+            for(Edge e : v.adj){
 
-                    if(w.getDestination().distance > cvw){
-                        w.getDestination().path = v;
-                        w.getDestination().distance = cvw;
+                Vertex w = e.getDestination();
 
-                        if(!heap.contains(w.getDestination())){
+                if(!w.visited) {
+                    int cvw = e.getCost();
+                    System.out.print("Vertex: " + w.getId() + ", cost: " + e.getCost());
+
+                    if(w.distance > cvw){
+                        w.path = v;
+                        w.distance = cvw;
+
+                        if(!heap.contains(w)){
                             System.out.println(" ... adding to heap");
-                            heap.add(w.getDestination());
+                            heap.add(w);
 
                         } else {
                             System.out.println(" ... updating existing heap element");
-                            heap.decreaseKey(w.getDestination());
+                            heap.decreaseKey(w);
                         }
 
                     } else {

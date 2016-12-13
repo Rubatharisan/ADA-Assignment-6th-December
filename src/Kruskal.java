@@ -3,7 +3,7 @@ import java.util.*;
 /**
  * Created by rubatharisan on 11/12/2016.
  */
-/*
+
 public class Kruskal {
 
     private Vertex[] disjointSet;
@@ -21,11 +21,10 @@ public class Kruskal {
 
         int i = 0;
         while(i != myEdges.length && spanningTree.size() != myGraph.getVertices().length){
-
+            
+            i++;
         }
     }
-
-    private boolean
 
 
     public static void main(String args[]){
@@ -69,4 +68,3 @@ public class Kruskal {
 
     }
 }
-*/
