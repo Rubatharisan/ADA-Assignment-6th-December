@@ -37,22 +37,27 @@ public class Edge implements Comparable<Edge>{
         this.cost = cost;
     }
 
+    // Get the source of this edge.
     public int getSource(){
         return this.source;
     }
 
+    // Get the target of this edge.
     public int getTarget(){
         return this.target;
     }
 
+    // Get the cost/weight of this edge
     public int getCost(){
         return this.cost;
     }
 
+    // Get the destination of this edge (as a vertex)
     public Vertex getDestination(){
         return this.targetVertex;
     }
 
+    // Get associated vertices to this undirected edge
     public Vertex[] getVertices(){
 
         return new Vertex[]{
@@ -62,12 +67,14 @@ public class Edge implements Comparable<Edge>{
 
     }
 
+    // Print the debugging data
     public void printData(){
         System.out.println("    Destination vertex: " + this.targetVertex.getId());
         System.out.println("    Cost: " + this.cost);
         System.out.println();
     }
 
+    // Comparator to our edge - based on cost.
     @Override
     public int compareTo(Edge e){
         return Integer.compare(this.getCost(), e.getCost());

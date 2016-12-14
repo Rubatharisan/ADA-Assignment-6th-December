@@ -6,49 +6,72 @@ import java.util.*;
 
 public class Kruskal {
 
-    Graph graph;
-    List<Edge> spanningTree = new ArrayList<>();
-    DisjointSet set = new DisjointSet();
+    // Our graph
+    private Graph graph;
 
+    // Our spanning tree
+    private List<Edge> spanningTree = new ArrayList<>();
+
+    // Our disjoint set
+    private DisjointSet set = new DisjointSet();
+
+    // Our constructor of kruskal
     Kruskal(Graph myGraph) {
         this.graph = myGraph;
-
     }
 
+    // Let's run our kruskal algorithm
     public void run(){
+
+        System.out.println("###");
+        System.out.println("# Kruskals algorithm");
+        System.out.println("##");
+        System.out.println();
+
+        // First get all edges from our graph
         Edge[] myEdges = this.graph.getEdges();
+
+        // Let's sort our edges so the smallest cost comes earliest in the array
         Arrays.sort(myEdges);
 
+        // Then for each vertex in our graph, let's make a set
         for(Vertex v : this.graph.getVertices()){
             set.makeSet(v);
         }
 
+        // For each edge in our sorted array of edges.
         for(Edge e : myEdges){
             //System.out.println(e.getVertices()[0].getId() + " <--> " + e.getVertices()[1].getId() + ", cost: " + e.getCost());
 
+            // Get the parent set of vertex v
             Vertex v = set.find(e.getVertices()[0]);
+
+            // Get the parent set of vertex w
             Vertex w = set.find(e.getVertices()[1]);
 
+            // If the root parent of vertex v and w is not equal to each other.
             if(v != w){
+
+                    // Then add it to our spanning tree
                     spanningTree.add(e);
+
+                    // Apply an union (apply w's root parent as v's parent.)
                     set.union(v,w);
+
+                    // Break out of our for loop, if we got a path to all vertices.
+                    if(spanningTree.size() == this.graph.getVertices().length - 1){
+                        break;
+                    }
             }
         }
-        /* for(Edge e : spanningTree){
-            System.out.println(e.getVertices()[0].getId() + " <--> " + e.getVertices()[1].getId() + ", cost: ");
-        } */
 
-        /* int i = 0;
-        while(i != myEdges.length && spanningTree.size() != myGraph.getVertices().length){
-
-            i++;
-        } */
     }
 
-
+    // Show the the combinations
     public void showPath(){
+        System.out.println("-- Spanning tree -- Kruskal");
         System.out.println("----------------------------------");
-        System.out.println("undirected edge --> cost");
+        System.out.println("undirected edge = cost");
         System.out.println("----------------------------------");
 
         for(Edge e : spanningTree){
@@ -56,14 +79,14 @@ public class Kruskal {
             Vertex v = e.getVertices()[0];
             Vertex w = e.getVertices()[1];
 
-            System.out.println("(v"+v.getId() + ",v" + w.getId() + ") -> cost: " + e.getCost());
+            System.out.println("(v"+v.getId() + ",v" + w.getId() + ") = cost: " + e.getCost());
         }
 
         System.out.println();
 
     }
 
-
+    /* // Tester static void main
     public static void main(String args[]){
 
         Vertex[] myVertices4 = new Vertex[]{
@@ -100,8 +123,5 @@ public class Kruskal {
         kruskal.showPath();
 
 
-
-
-
-    }
+    } */
 }

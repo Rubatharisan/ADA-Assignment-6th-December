@@ -1,128 +1,131 @@
-import java.util.*;
+import java.util.Stack;
+import java.util.Collections;
 
 /**
  * Created by rubatharisan on 07/12/2016.
  */
-public class Dijkstra {
-    Vertex source;
-    Graph graph;
-    boolean showHeapDebug = false;
 
+public class Dijkstra {
+
+    // Which vertex are we starting from?
+    private Vertex source;
+
+    // Let's define the graph which contains all the vertices.
+    private Graph graph;
+
+    // Should we show the heap data?
+    private boolean showHeapData = false;
+
+    // Our custom heap
+    private Heap heap;
+
+    // Constructor of our dijkstra algorithm
     Dijkstra(Vertex s, Graph graph){
         this.source = s;
         this.graph = graph;
+        this.heap = new Heap(graph.getVertices().length);
     }
 
+    // Run our dikstra algorithm with the defined graph and source
     public void run(){
         System.out.println("###");
         System.out.println("# Dijkstra's algorithm");
         System.out.println("##");
         System.out.println();
 
-
-        /* PriorityQueue<Vertex> q = new PriorityQueue<>(vertices.length, new Comparator<Vertex>(){
-
-            public int compare(Vertex vertex1,
-                               Vertex vertex2)
-            {
-                return vertex1.distance.compareTo(vertex2.distance);
-            }
-
-        }); */
-
-        Heap q = new Heap(graph.getVertices().length);
-        q.debug = showHeapDebug;
-
-
+        // Loop through all of our vertices in the graph.
         for(Vertex v : graph.getVertices()){
+
+            // Set the source vertex as having the distance of 0.
             if(v == source){
-                v.distance = 0;
+                v.setDistance(0);
             }
 
-            q.add(v);
+            // For every vertex in our graph add it to the heap.
+            heap.add(v);
+
         }
 
-        /* test
-        System.out.println("---");
-        for (Iterator<Vertex> flavoursIter = q.iterator(); flavoursIter.hasNext();){
-            Vertex n = flavoursIter.next();
-            System.out.println("Vertex: " + n.getId() + " Cost: " + n.distance);
-        }
-        System.out.println("----"); */
+        // Show heap?
+        this.heap.debug = showHeapData;
 
+        // While there is something in the heap...
+        while(!heap.isEmpty()){
 
+            // Poll the vertex with the minimum distance out of the heap.
+            Vertex v = heap.poll();
 
+            // Set the vertex as visited
+            // v.isVisited = true
+            v.setAsVisited();
 
-        while(!q.isEmpty()){
-            Vertex v = q.poll();
+            // For every edge this vertex has
+            for(Edge e : v.getAdjacentVertices()){
 
-            //System.out.println("Taking out ID: " + v.getId());
-            //System.out.println("Taking element with priority " + v.distance);
-
-
-            v.visited = true;
-
-            for(Edge e : v.adj){
-
+                // Get an adjacent vertex
                 Vertex w = e.getDestination();
 
-                if(!w.visited){
+                // Check if the adjacent vertex is visited
+                if(!w.isVisited()){
+
+                    // Get the weight / cost of the path to the vertex.
                     int cvw = e.getCost();
 
-                    if(v.distance + cvw < w.distance){
+                    // If vertex v distance + the cost of getting to the vertex w is cheaper then the current defined
+                    // vertex w distance, then set a new distance to vertex w.
+                    if(v.getDistance() + cvw < w.getDistance()){
 
-                        //System.out.println("Adjacent vertex: " + w.destination.getId() + " has cost: " + w.destination.distance);
-                        w.distance = v.distance + cvw;
-                        //System.out.println("Adjacent vertex: " + w.destination.getId() + " has updated cost: " + w.destination.distance);
-                        w.path = v;
+                        // Set the new distance to vertex w.
+                        w.setDistance(v.getDistance() + cvw);
 
-                        q.decreaseKey(w);
+                        // Set vertex v as the parent of vertex w.
+                        w.setParent(v);
+
+                        // Let's decrease the distance value already previously defined for vertex w.
+                        heap.decreaseKey(w);
 
                     }
 
                 }
             }
 
-            /* test
-            System.out.println("---");
-            for (Iterator<Vertex> flavoursIter = q.iterator(); flavoursIter.hasNext();){
-                Vertex n = flavoursIter.next();
-                System.out.println("Vertex: " + n.getId() + " Cost: " + n.distance);
-            }
-            System.out.println("----"); */
         }
 
     }
 
+    // Do you want to see the heap data?
+    public void showHeapData(boolean state){
+        this.showHeapData = state;
+    }
+
+    // Show path from source vertex to any vertex in the graph
     void showPath(){
         System.out.println("Source vertex: " + source.getId());
         System.out.println("----------------------------------");
         System.out.println("vertex|distance|path");
         System.out.println("----------------------------------");
 
+        // For every vertex in the graph
         for(Vertex v : graph.getVertices()){
 
+            // Print out the vertex id and cost of getting there
+            System.out.print("v" + v.getId() + "    cost: " + v.getDistance() + "    ");
 
-            System.out.print("v" + v.getId() + "    cost: " + v.distance + "    ");
-
-
-            if(v.path != null) {
+            // If the vertex has a parent, then print out the order and path.
+            if(v.getParent() != null) {
                 Stack<Integer> order = new Stack<>();
                 printPath(v, order);
             }
 
-            if(v.distance == Integer.MAX_VALUE){
+            // If the distance is infinity (Integer.MAX_VALUE) then the source vertex, or it has no way to get to
+            // the vertex
+            if(v.getDistance() == Integer.MAX_VALUE){
                 System.out.print("Not possible to reach from " + source.getId() + " to ");
             }
 
+            // Print out which vertex we are talking about
             System.out.print(v.getId());
 
-            /*
-            for(Edge w : v.adj){
-                System.out.println("    to: " + w.destination.getId());
-                System.out.println("    cost: " + w.destination.distance);
-            }
-            */
             System.out.println();
         }
 
@@ -130,15 +133,17 @@ public class Dijkstra {
 
     }
 
+    // Print path (recursively - and add it to our stack)
     void printPath(Vertex v, Stack<Integer> order){
 
-        if(v.path != null){
-            //System.out.print(v.path.getId() + ", ");
-            order.push(v.path.getId());
-            printPath(v.path, order);
+        if(v.getParent() != null){
+            order.push(v.getParent().getId());
+            printPath(v.getParent(), order);
         }
 
-        if(v.path == null){
+        // If vertex parent is null, then time to print out our order stack
+        if(v.getParent() == null){
+            // Let's reverse the order stack first
             Collections.reverse(order);
 
             for(int i : order){
@@ -150,7 +155,4 @@ public class Dijkstra {
 
     }
 
-    void showHeap(boolean showDebug){
-        this.showHeapDebug = showDebug;
-    }
 }

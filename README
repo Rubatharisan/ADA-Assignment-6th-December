@@ -3,12 +3,29 @@ Graphs
 Write your own implementation of the graph data structure and implement topological sort and at least
 one of the following three algorithms: Dijkstra, Kruskal, Prim.
 
-    We have implemented our graph with a adjacency list ... only doing dijkstra right now - want to do Kruskal and Prim :)
+    We have implemented a graph data structure and a topological sort to it.
+    For finding shortest paths and minimum spanning trees we have implemented Dijkstra, Kruskal and Prim.
+
+    Right now all three algorithms share the same graph, vertex and edge classes, but each slightly modified for the algorithms to work.
+
+    For the Dijkstra and Prim algorithms to work we needed a data structure, that would allow extracting the element with the minimal key and would support decreaseKey operation. We could not find such a structure in native Java so we have implemented a heap class.
+
+    For the Kruskal algorithm we have implemented a DisjointSet class which has the purpose of creating, finding and uniting sets of vertices.
+
+    All of the graphs we have used in the tester class are taken from the book. We have taken some screenshots of the graphs, and inserted them into the folder called 'figures'.
+
+    We have used adjacency lists instead of a adjacency matrix to define our adjacent vertices to every vertex.
 
 
-    *********
-    Following graph is taken from the book, figure: 9.1
-    *********
+
+    ####
+    ## Console output
+    ###
+
+    ******************************************************
+    The following graph is taken from the book, figure: 9.1
+    We will be using Dijkstra
+    ******************************************************
 
     ###
     # Adjacency list representation of our graph (vertex | adjacent vertex, ...)
@@ -57,9 +74,10 @@ one of the following three algorithms: Dijkstra, Kruskal, Prim.
     v7    cost: 2    1 -> 4 -> 7
 
 
-    *********
+    ******************************************************
     Following graph is taken from the book, figure: 9.8
-    *********
+    We will be using Dijkstra
+    ******************************************************
 
     ###
     # Adjacency list representation of our graph (vertex | adjacent vertex, ...)
@@ -109,9 +127,10 @@ one of the following three algorithms: Dijkstra, Kruskal, Prim.
     v7    cost: 5    1 -> 4 -> 7
 
 
-    *********
+    ******************************************************
     Following graph is taken from the book, figure: 9.50
-    *********
+    We will be using Dijkstra, Prim and Kruskal
+    ******************************************************
 
     ###
     # Adjacency list representation of our graph (vertex | adjacent vertex, ...)
@@ -145,43 +164,64 @@ one of the following three algorithms: Dijkstra, Kruskal, Prim.
 
 
     ###
-    # Prims algorithm
+    # Dijkstra's algorithm
     ##
-
-    I am at vertex: 1
-    Vertex: 2, cost: 2 ... adding to heap
-    Vertex: 3, cost: 4 ... adding to heap
-    Vertex: 4, cost: 1 ... adding to heap
-
-    I am at vertex: 4
-    Vertex: 2, cost: 3 ... not updating existing heap element
-    Vertex: 3, cost: 2 ... updating existing heap element
-    Vertex: 5, cost: 7 ... adding to heap
-    Vertex: 7, cost: 4 ... adding to heap
-    Vertex: 6, cost: 8 ... adding to heap
-
-    I am at vertex: 2
-    Vertex: 5, cost: 10 ... not updating existing heap element
-
-    I am at vertex: 3
-    Vertex: 6, cost: 5 ... updating existing heap element
-
-    I am at vertex: 7
-    Vertex: 5, cost: 6 ... updating existing heap element
-    Vertex: 6, cost: 1 ... updating existing heap element
-
-    I am at vertex: 6
-
-    I am at vertex: 5
 
     Source vertex: 1
     ----------------------------------
-    vertex|distance|edge
+    vertex|distance|path
     ----------------------------------
-    v1    cost: 0
-    v2    cost: 2    (v2,v1)
-    v3    cost: 2    (v3,v4)
-    v4    cost: 1    (v4,v1)
-    v5    cost: 6    (v5,v7)
-    v6    cost: 1    (v6,v7)
-    v7    cost: 4    (v7,v4)
+    v1    cost: 0    1
+    v2    cost: 2    1 -> 2
+    v3    cost: 3    1 -> 4 -> 3
+    v4    cost: 1    1 -> 4
+    v5    cost: 8    1 -> 4 -> 5
+    v6    cost: 6    1 -> 4 -> 7 -> 6
+    v7    cost: 5    1 -> 4 -> 7
+
+    ###
+    # Prims algorithm
+    ##
+
+    Vertex: 2, cost: 2, from: 1 ... adding to heap
+    Vertex: 3, cost: 4, from: 1 ... adding to heap
+    Vertex: 4, cost: 1, from: 1 ... adding to heap
+    Vertex: 2, cost: 3, from: 4 ... not updating existing heap element
+    Vertex: 3, cost: 2, from: 4 ... updating existing heap element
+    Vertex: 5, cost: 7, from: 4 ... adding to heap
+    Vertex: 7, cost: 4, from: 4 ... adding to heap
+    Vertex: 6, cost: 8, from: 4 ... adding to heap
+    Vertex: 5, cost: 10, from: 2 ... not updating existing heap element
+    Vertex: 6, cost: 5, from: 3 ... updating existing heap element
+    Vertex: 5, cost: 6, from: 7 ... updating existing heap element
+    Vertex: 6, cost: 1, from: 7 ... updating existing heap element
+
+    -- Spanning tree -- Prim
+    Source vertex: 1, which we span from
+    ----------------------------------
+    undirected edge = cost
+    ----------------------------------
+    (v2,v1) = cost: 2
+    (v3,v4) = cost: 2
+    (v4,v1) = cost: 1
+    (v5,v7) = cost: 6
+    (v6,v7) = cost: 1
+    (v7,v4) = cost: 4
+
+    ###
+    # Kruskals algorithm
+    ##
+
+    -- Spanning tree -- Kruskal
+    ----------------------------------
+    undirected edge = cost
+    ----------------------------------
+    (v1,v4) = cost: 1
+    (v6,v7) = cost: 1
+    (v1,v2) = cost: 2
+    (v3,v4) = cost: 2
+    (v4,v7) = cost: 4
+    (v5,v7) = cost: 6
+
+
+    Process finished with exit code 0
